@@ -21,12 +21,14 @@
     {
       "src": "screenshot2-mobile.PNG",
       "sizes": "1179x2556",
-      "type": "image/png"
+      "type": "image/png",
+      "form_factor": "narrow" 
     },
       {
       "src": "screenshot-wide.PNG",
       "sizes": "1179x2556",
-      "type": "image/png"
+      "type": "image/png",
+      "form_factor": "wide"
     }
   ]
 }
