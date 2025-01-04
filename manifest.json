@@ -17,4 +17,11 @@
       "type": "image/png"
     }
   ]
+    "screenshots": [
+    {
+      "src": "screenshot2-mobile.png",
+      "sizes": "1179x2556",
+      "type": "image/png"
+    }
+  ]
 }
