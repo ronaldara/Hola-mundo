@@ -1,22 +1,146 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi PWA</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="manifest" href="manifest.json">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Productos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <link rel="manifest" href="manifest.json">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th {
+            background-color: black;
+            color: white;
+            padding: 10px;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        td {
+            padding: 10px;
+            font-weight: bold;
+        }
+        tbody tr:nth-child(odd) td {
+            background-color: #f2f2f2;
+        }
+        tbody tr:nth-child(even) td {
+            background-color: #e0e0e0;
+        }
+        tbody tr:hover td {
+            background-color: #ccc;
+        }
+    </style>
 </head>
 <body>
-  <h1>¡Hola Mundo desde PWA!</h1>
-  <p>Esta es una aplicación web progresiva básica en iphone.</p>
-  <script>
-    // Registrar el Service Worker
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./service-worker.js')
-        .then(() => console.log('Service Worker registrado'))
-        .catch(err => console.error('Error al registrar el Service Worker:', err));
-    }
-  </script>
+
+    <div class="input-group">
+        <input type="text" id="bus" class="form-control form-control-lg" placeholder="Escribe aquí para filtrar">
+        <button id="busc" class="btn btn-primary" type="button">
+            <i class="fas fa-microphone"></i>
+        </button>
+    </div>
+    <br>
+
+    <table>
+        <thead>
+            <tr><th>Articulo</th><th>Descripción</th><th>Cantidad</th><th>Detalles</th></tr>
+        </thead>
+        <tfoot>
+            <tr><td colspan="2">Total</td><td id="total"></td></tr>
+        </tfoot>
+        <tbody id="res"></tbody>
+    </table>
+
+    <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productModalLabel">Detalle del Producto</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <img id="modal-image" src="" alt="Imagen del Producto" class="img-fluid mb-3">
+                    <p id="modal-description"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Función para cargar productos desde un archivo JSON
+        function cargarProductos() {
+            $.getJSON("productos.json", function(data) {
+                let contenido = "";
+                let total = 0;
+                data.forEach(function(producto) {
+                    contenido += `<tr>
+                                    <td>${producto.uno}</td>
+                                    <td>${producto.dos}</td>
+                                    <td>${producto.tres}</td>
+                                    <td><button class="btn btn-info" onclick="mostrarDetalle('${producto.uno}', '${producto.dos}')">Ver Detalles</button></td>
+                                  </tr>`;
+                    total += parseInt(producto.tres);
+                });
+                $("#res").html(contenido);
+                $("#total").text(total);
+            });
+        }
+
+        // Función para mostrar el detalle del producto en el modal
+        function mostrarDetalle(articulo, descripcion) {
+            $("#modal-description").text(`Producto: ${articulo}\nDescripción: ${descripcion}`);
+            $("#productModal").modal('show');
+        }
+
+        // Cargar los productos al cargar la página
+        $(document).ready(function() {
+            cargarProductos();
+        });
+
+        // Función de reconocimiento de voz
+        $(document).ready(function() {
+            var recognition = new webkitSpeechRecognition();
+            recognition.continuous = true;
+            recognition.lang = "es";
+
+            $('#busc').click(function(event) {
+                recognition.start();
+            });
+
+            recognition.onresult = function(event) {
+                var finalResult = '';
+                for (var i = event.resultIndex; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) {
+                        finalResult = event.results[i][0].transcript;
+                        $('#bus').val(finalResult);
+                    }
+                }
+            };
+        });
+    </script>
+
+    <script>
+        // Registrar el service worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(function(registration) {
+                    console.log('Service Worker registrado con éxito:', registration);
+                })
+                .catch(function(error) {
+                    console.log('Error al registrar el Service Worker:', error);
+                });
+        }
+    </script>
+
 </body>
 </html>
