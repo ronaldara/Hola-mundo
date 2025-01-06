@@ -12,6 +12,40 @@
         body {
             font-family: Arial, sans-serif;
         }
+    :root {
+        --bg-color: #ffffff;
+        --text-color: #000000;
+        --table-header-bg: #000000;
+        --table-header-text: #ffffff;
+        --hover-color: #ccc;
+    }
+
+    [data-theme="dark"] {
+        --bg-color: #121212;
+        --text-color: #ffffff;
+        --table-header-bg: #1f1f1f;
+        --table-header-text: #ffffff;
+        --hover-color: #333333;
+    }
+
+    body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    table th {
+        background-color: var(--table-header-bg);
+        color: var(--table-header-text);
+    }
+
+    table tbody tr:hover td {
+        background-color: var(--hover-color);
+    }
+
+    button {
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
 
         table {
             width: 100%;
@@ -56,7 +90,9 @@
     </style>
 </head>
 <body>
-
+<div class="d-flex justify-content-end my-3">
+    <button id="themeToggle" class="btn btn-secondary">Modo Oscuro</button>
+</div>
 <div class="container mt-4">
     <div class="input-group mb-3">
         <input type="text" id="bus" class="form-control" placeholder="Escribe aquí para filtrar">
