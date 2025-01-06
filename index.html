@@ -8,86 +8,87 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
     <link rel="manifest" href="manifest.json">
-            <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-    :root {
-        --bg-color: #ffffff;
-        --text-color: #000000;
-        --table-header-bg: #000000;
-        --table-header-text: #ffffff;
-        --hover-color: #ccc;
+            body {
+    font-family: Arial, sans-serif;
+}
+
+/* Variables de color para el tema claro y oscuro */
+:root {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --table-header-bg: #000000;
+    --table-header-text: #ffffff;
+    --hover-color: #ccc;
+    --odd-row-bg: #f2f2f2;
+    --even-row-bg: #e0e0e0;
+}
+
+[data-theme="dark"] {
+    --bg-color: #121212;
+    --text-color: #ffffff;
+    --table-header-bg: #1f1f1f;
+    --table-header-text: #ffffff;
+    --hover-color: #333333;
+    --odd-row-bg: #444444;
+    --even-row-bg: #555555;
+}
+
+/* Estilo para el cuerpo */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Estilo de la tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background-color: var(--table-header-bg);
+    color: var(--table-header-text);
+    padding: 10px;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+td {
+    padding: 10px;
+    font-weight: bold;
+}
+
+/* Estilo de filas impares y pares */
+tbody tr:nth-child(odd) td {
+    background-color: var(--odd-row-bg);
+}
+
+tbody tr:nth-child(even) td {
+    background-color: var(--even-row-bg);
+}
+
+/* Estilo al pasar el mouse sobre una fila */
+tbody tr:hover td {
+    background-color: var(--hover-color);
+}
+
+/* Hacer la tabla responsive */
+.table-responsive {
+    overflow-x: auto;
+}
+
+/* Estilo de botón */
+button {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 768px) {
+    th, td {
+        font-size: 0.9em;
     }
-
-    [data-theme="dark"] {
-        --bg-color: #121212;
-        --text-color: #ffffff;
-        --table-header-bg: #1f1f1f;
-        --table-header-text: #ffffff;
-        --hover-color: #333333;
-    }
-
-    body {
-        background-color: var(--bg-color);
-        color: var(--text-color);
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    table th {
-        background-color: var(--table-header-bg);
-        color: var(--table-header-text);
-    }
-
-    table tbody tr:hover td {
-        background-color: var(--hover-color);
-    }
-
-    button {
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th {
-            background-color: black;
-            color: white;
-            padding: 10px;
-            font-weight: bold;
-            font-size: 1.2em;
-        }
-
-        td {
-            padding: 10px;
-            font-weight: bold;
-        }
-
-        tbody tr:nth-child(odd) td {
-            background-color: #f2f2f2;
-        }
-
-        tbody tr:nth-child(even) td {
-            background-color: #e0e0e0;
-        }
-
-        tbody tr:hover td {
-            background-color: #ccc;
-        }
-
-        /* Hacer la tabla responsive */
-        .table-responsive {
-            overflow-x: auto;
-        }
-
-        @media (max-width: 768px) {
-            th, td {
-                font-size: 0.9em;
-            }
-        }
-    </style>
+}
 </head>
 <body>
 <div class="d-flex justify-content-end my-3">
