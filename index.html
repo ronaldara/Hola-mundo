@@ -8,37 +8,47 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
     <link rel="manifest" href="manifest.json">
-        <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
+            <style>
+        body {
+            font-family: Arial, sans-serif;
         }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
         th {
             background-color: black;
             color: white;
             padding: 10px;
-            font-size: 1em;
-            text-align: left;
+            font-weight: bold;
+            font-size: 1.2em;
         }
+
         td {
             padding: 10px;
+            font-weight: bold;
         }
+
         tbody tr:nth-child(odd) td {
             background-color: #f2f2f2;
         }
+
         tbody tr:nth-child(even) td {
             background-color: #e0e0e0;
         }
+
         tbody tr:hover td {
             background-color: #ccc;
         }
-        /* Responsivo para pantallas pequeñas */
+
+        /* Hacer la tabla responsive */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
         @media (max-width: 768px) {
-            table {
-                display: block;
-                overflow-x: auto;
-                white-space: nowrap;
-            }
             th, td {
                 font-size: 0.9em;
             }
@@ -56,13 +66,12 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table table-bordered table-striped">
+        <table>
             <thead>
                 <tr>
                     <th>Artículo</th>
                     <th>Descripción</th>
                     <th>Cantidad</th>
-                    <th>Detalles</th>
                 </tr>
             </thead>
             <tfoot>
@@ -73,25 +82,6 @@
             </tfoot>
             <tbody id="res"></tbody>
         </table>
-    </div>
-</div>
-
-<!-- Modal para detalles del producto -->
-<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="productModalLabel">Detalle del Producto</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <img id="modal-image" src="" alt="Imagen del Producto" class="img-fluid mb-3">
-                <p id="modal-description"></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -108,20 +98,12 @@
                                     <td>${producto.uno}</td>
                                     <td>${producto.dos}</td>
                                     <td>${producto.tres}</td>
-                                    <td><button class="btn btn-info btn-sm" onclick="mostrarDetalle('${producto.uno}', '${producto.dos}')">Ver Detalles</button></td>
                                   </tr>`;
                     total += parseInt(producto.tres);
                 });
                 document.getElementById("res").innerHTML = contenido;
                 document.getElementById("total").textContent = total;
             });
-    }
-
-    // Función para mostrar el detalle del producto en el modal
-    function mostrarDetalle(articulo, descripcion) {
-        document.getElementById("modal-description").textContent = `Producto: ${articulo}\nDescripción: ${descripcion}`;
-        const productModal = new bootstrap.Modal(document.getElementById('productModal'));
-        productModal.show();
     }
 
     // Función para filtrar los productos solo en la columna de descripción
@@ -142,6 +124,8 @@
     // Cargar los productos al cargar la página
     document.addEventListener("DOMContentLoaded", function() {
         cargarProductos();
+
+        // Filtrar productos cuando el usuario escribe en el campo de búsqueda
         document.getElementById("bus").addEventListener("input", filtrarProductos);
     });
 
@@ -167,6 +151,7 @@
         };
     });
 </script>
+
 
     <!-- Registrar el service worker -->
     <script>
