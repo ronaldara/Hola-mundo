@@ -189,6 +189,20 @@
         // Filtrar productos al escribir en el input
         document.getElementById("bus").addEventListener("input", filtrarProductos);
     });
+    document.addEventListener("DOMContentLoaded", function () {
+    const themeToggle = document.getElementById("themeToggle");
+    const currentTheme = localStorage.getItem("theme") || "light";
+
+    document.documentElement.setAttribute("data-theme", currentTheme);
+    themeToggle.textContent = currentTheme === "dark" ? "Modo Claro" : "Modo Oscuro";
+
+    themeToggle.addEventListener("click", function () {
+        const newTheme = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", newTheme);
+        themeToggle.textContent = newTheme === "dark" ? "Modo Claro" : "Modo Oscuro";
+        localStorage.setItem("theme", newTheme);
+    });
+});
 </script>
 
 
