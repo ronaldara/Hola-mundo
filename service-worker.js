@@ -1,4 +1,4 @@
-const CACHE_NAME = 'productos-cache-v2'; // Incrementa la versión cuando cambies recursos
+const CACHE_NAME = 'productos-cache-v3'; // Incrementa la versión para forzar la actualización
 const urlsToCache = [
     './', // Si el archivo está en el mismo directorio
     './index.html',
@@ -17,31 +17,31 @@ self.addEventListener('install', (event) => {
                 return cache.addAll(urlsToCache);
             })
     );
-    self.skipWaiting(); // Activa inmediatamente el nuevo Service Worker
+    self.skipWaiting(); // Activa inmediatamente el nuevo SW
 });
 
-// Manejo de solicitudes de red con "Network First"
+// Manejo de solicitudes de red con "Network First" y control de actualización
 self.addEventListener('fetch', (event) => {
     event.respondWith(
         fetch(event.request)
             .then((response) => {
-                // Si la respuesta es válida, actualizar la caché
+                // Si la respuesta es válida, actualiza el recurso en la caché
                 if (response && response.status === 200) {
                     const responseClone = response.clone();
                     caches.open(CACHE_NAME).then((cache) => {
                         cache.put(event.request, responseClone);
                     });
                 }
-                return response; // Devuelve la respuesta de la red
+                return response;
             })
             .catch(() => {
-                // Si la red falla, intenta obtener los datos de la caché
+                // Si falla la red, busca en la caché
                 return caches.match(event.request);
             })
     );
 });
 
-// Activación del Service Worker y limpieza de cachés antiguas
+// Activación del Service Worker: Limpieza de cachés antiguas
 self.addEventListener('activate', (event) => {
     console.log('[Service Worker] Activando...');
     const cacheWhitelist = [CACHE_NAME];
