@@ -106,7 +106,7 @@
             });
     }
 
-    // Función para filtrar los productos solo en la columna de descripción
+    // Función para filtrar los productos
     function filtrarProductos() {
         const busqueda = document.getElementById("bus").value.toLowerCase();
         const filas = document.querySelectorAll("#res tr");
@@ -121,34 +121,37 @@
         });
     }
 
-    // Cargar los productos al cargar la página
-    document.addEventListener("DOMContentLoaded", function() {
-        cargarProductos();
-
-        // Filtrar productos cuando el usuario escribe en el campo de búsqueda
-        document.getElementById("bus").addEventListener("input", filtrarProductos);
-    });
-
-    // Función de reconocimiento de voz
+    // Reconocimiento de voz
     document.addEventListener("DOMContentLoaded", function() {
         const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-        recognition.continuous = true;
+        recognition.continuous = false; // Stop recognition after each phrase
         recognition.lang = "es";
 
-        document.getElementById('busc').addEventListener('click', function() {
+        document.getElementById("busc").addEventListener("click", function() {
             recognition.start();
         });
 
         recognition.onresult = function(event) {
-            let finalResult = '';
-            for (let i = event.resultIndex; i < event.results.length; ++i) {
-                if (event.results[i].isFinal) {
-                    finalResult = event.results[i][0].transcript;
-                    document.getElementById('bus').value = finalResult;
-                    filtrarProductos();
-                }
-            }
+            let finalResult = event.results[0][0].transcript; // Tomar el primer resultado
+            document.getElementById("bus").value = finalResult; // Mostrarlo en el input
+            filtrarProductos(); // Aplicar el filtro automáticamente
         };
+
+        recognition.onerror = function(event) {
+            console.error("Error en el reconocimiento de voz:", event.error);
+        };
+
+        recognition.onend = function() {
+            console.log("Reconocimiento de voz finalizado.");
+        };
+    });
+
+    // Cargar los productos al iniciar la página
+    document.addEventListener("DOMContentLoaded", function() {
+        cargarProductos();
+
+        // Filtrar productos al escribir en el input
+        document.getElementById("bus").addEventListener("input", filtrarProductos);
     });
 </script>
 
