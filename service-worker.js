@@ -1,10 +1,10 @@
 const CACHE_NAME = 'productos-cache-v1';
 const urlsToCache = [
     '/',
-    '/index.html',
-    '/manifest.json',
-    '/style.css',
-    '/productos.json',
+    './index.html',
+    './manifest.json',
+    './style.css',
+    './productos.json',
     
 ];
 
