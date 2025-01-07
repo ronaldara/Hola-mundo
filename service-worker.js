@@ -2,6 +2,7 @@ const CACHE_NAME = 'productos-cache-v3'; // Incrementa la versión para forzar l
 const urlsToCache = [
     './', // Si el archivo está en el mismo directorio
     './index.html',
+     './precios.html',
     './manifest.json',
     './style.css',
     './productos.json',
