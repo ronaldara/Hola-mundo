@@ -24,7 +24,7 @@
 			box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.2);
 			display: flex;
 			justify-content: space-around;
-			padding: 10px 0;
+			padding: 25px 10px;
 			z-index: 1000;
 			transition: background-color 0.3s ease;
 		}
@@ -34,7 +34,7 @@
 			flex: 1;
 			color: #000;
 			text-decoration: none;
-			font-size: 14px;
+			font-size: 20px;
 		}
 
 		.navbar-bottom a i {
@@ -145,6 +145,48 @@
 		.table-responsive {
 			overflow-x: auto;
 		}
+		/* Estilo base para dispositivos grandes */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* Suaviza el desplazamiento en móviles */
+}
+
+.table th, .table td {
+    padding: 12px 15px;
+    font-size: 16px;
+}
+
+/* Contenedor para tabla responsive */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* Suaviza el desplazamiento en móviles */
+    border: 1px solid #ddd; /* Opcional: Añade un borde alrededor del contenedor */
+}
+
+.table th, .table td {
+    padding: 12px 15px;
+    font-size: 16px;
+}
+
+/* Dispositivos medianos (tabletas) */
+@media (max-width: 768px) {
+    .table th, .table td {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+}
+
+/* Dispositivos pequeños (teléfonos) */
+@media (max-width: 480px) {
+    .table th, .table td {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+
+    .table-responsive {
+        overflow-x: auto; /* Permite desplazamiento horizontal */
+    }
+}
 	</style>
 </head>
 <body>
