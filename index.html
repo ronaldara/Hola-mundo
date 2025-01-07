@@ -112,19 +112,38 @@
 			background-color: #0056b3;
 		}
 
+		/* Estilo tabla similar a Bootstrap */
 		.table {
 			width: 100%;
 			border-collapse: collapse;
+			margin-top: 20px;
 		}
 
 		.table th, .table td {
-			padding: 10px;
-			border: 1px solid #ddd;
+			padding: 12px 15px;
 			text-align: left;
+			border: 1px solid #ddd;
 		}
 
 		.table th {
 			background-color: #f4f4f4;
+			color: #333;
+		}
+
+		.table tr:nth-child(even) {
+			background-color: #f9f9f9;
+		}
+
+		.table tr:hover {
+			background-color: #f1f1f1;
+		}
+
+		.table tfoot td {
+			font-weight: bold;
+		}
+
+		.table-responsive {
+			overflow-x: auto;
 		}
 	</style>
 </head>
@@ -178,93 +197,71 @@
 		</div>
 	</div>
 
-<script>
-    // Función para cargar productos desde un archivo JSON
-    function cargarProductos() {
-        fetch("productos.json")
-            .then(response => response.json())
-            .then(data => {
-                let contenido = "";
-                let total = 0;
-                data.forEach(function(producto) {
-                    contenido += `<tr>
-                                    <td>${producto.uno}</td>
-                                    <td>${producto.dos}</td>
-                                    <td>${producto.tres}</td>
-                                  </tr>`;
-                    total += parseInt(producto.tres);
-                });
-                document.getElementById("res").innerHTML = contenido;
-                document.getElementById("total").textContent = total;
-            });
-    }
-
-    // Función para filtrar los productos
-    function filtrarProductos() {
-        const busqueda = document.getElementById("bus").value.toLowerCase();
-        const filas = document.querySelectorAll("#res tr");
-
-        filas.forEach(function(fila) {
-            const descripcion = fila.cells[1].textContent.toLowerCase();
-            if (descripcion.indexOf(busqueda) === -1) {
-                fila.style.display = "none";
-            } else {
-                fila.style.display = "";
-            }
-        });
-    }
-
-    // Reconocimiento de voz
-    document.addEventListener("DOMContentLoaded", function() {
-        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-        recognition.continuous = false; // Stop recognition after each phrase
-        recognition.lang = "es";
-
-        document.getElementById("busc").addEventListener("click", function() {
-            recognition.start();
-        });
-
-        recognition.onresult = function(event) {
-            let finalResult = event.results[0][0].transcript; // Tomar el primer resultado
-            document.getElementById("bus").value = finalResult; // Mostrarlo en el input
-            filtrarProductos(); // Aplicar el filtro automáticamente
-        };
-
-        recognition.onerror = function(event) {
-            console.error("Error en el reconocimiento de voz:", event.error);
-        };
-
-        recognition.onend = function() {
-            console.log("Reconocimiento de voz finalizado.");
-        };
-    });
-
-    // Cargar los productos al iniciar la página
-    document.addEventListener("DOMContentLoaded", function() {
-        cargarProductos();
-
-        // Filtrar productos al escribir en el input
-        document.getElementById("bus").addEventListener("input", filtrarProductos);
-    });
-    // Cambio de tema
-		function toggleTheme() {
-			const theme = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-			document.body.setAttribute('data-theme', theme);
+	<!-- Scripts -->
+	<script>
+		// Función para cargar productos desde JSON
+		function cargarProductos() {
+			fetch("productos.json")
+				.then(response => response.json())
+				.then(data => {
+					let contenido = "";
+					let total = 0;
+					data.forEach(function(producto) {
+						contenido += `<tr>
+										<td>${producto.uno}</td>
+										<td>${producto.dos}</td>
+										<td>${producto.tres}</td>
+									  </tr>`;
+						total += parseInt(producto.tres);
+					});
+					document.getElementById("res").innerHTML = contenido;
+					document.getElementById("total").textContent = total;
+				});
 		}
 
-		// Botón para alternar el tema
-		const themeButton = document.createElement('button');
-		themeButton.textContent = 'Cambiar tema';
-		themeButton.style.position = 'fixed';
-		themeButton.style.top = '10px';
-		themeButton.style.right = '10px';
-		themeButton.style.padding = '10px';
-		themeButton.style.cursor = 'pointer';
-		themeButton.onclick = toggleTheme;
-		document.body.appendChild(themeButton);
+		// Filtrar productos
+		function filtrarProductos() {
+			const busqueda = document.getElementById("bus").value.toLowerCase();
+			const filas = document.querySelectorAll("#res tr");
 
-</script>
+			filas.forEach(function(fila) {
+				const descripcion = fila.cells[1].textContent.toLowerCase();
+				if (descripcion.indexOf(busqueda) === -1) {
+					fila.style.display = "none";
+				} else {
+					fila.style.display = "";
+				}
+			});
+		}
 
+		// Cambio de tema y guardar en localStorage
+		function toggleTheme() {
+			const currentTheme = localStorage.getItem('theme') || 'light';
+			const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+			document.body.setAttribute('data-theme', newTheme);
+			localStorage.setItem('theme', newTheme);
+		}
+
+		// Cargar tema desde localStorage al iniciar
+		document.addEventListener('DOMContentLoaded', function () {
+			const savedTheme = localStorage.getItem('theme') || 'light';
+			document.body.setAttribute('data-theme', savedTheme);
+
+			cargarProductos();
+			document.getElementById("bus").addEventListener("input", filtrarProductos);
+
+			// Crear y añadir el botón de cambio de tema
+			const themeButton = document.createElement('button');
+			themeButton.textContent = 'Cambiar tema';
+			themeButton.style.position = 'fixed';
+			themeButton.style.top = '10px';
+			themeButton.style.right = '10px';
+			themeButton.style.padding = '10px';
+			themeButton.style.cursor = 'pointer';
+			themeButton.onclick = toggleTheme;
+			document.body.appendChild(themeButton);
+		});
+	</script>
 
     <!-- Registrar el service worker -->
     <script>
