@@ -4,7 +4,7 @@ const urlsToCache = [
     './index.html',
      './precios.html',
     './manifest.json',
-    './style.css',
+    './styles.css',
     './productos.json',
 ];
 
