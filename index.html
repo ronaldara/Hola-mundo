@@ -1,416 +1,338 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Lista de Productos</title>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
-       <link rel="manifest" href="manifest.json">
-      <style>
-            /* Estilos generales */
-            body {
-                  font-family: Arial, sans-serif;
-                  margin: 0;
-                  padding: 0;
-                  transition: background-color 0.3s, color 0.3s;
-            }
-        /* Pantalla de bienvenida */
-        #splashScreen {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #17202a;
-            z-index: 9999;
-        }
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Lista de Productos</title>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <link rel="manifest" href="manifest.json">
+   <style>
+       /* Estilos generales */
+       body {
+           font-family: Arial, sans-serif;
+           margin: 0;
+           padding: 0;
+           transition: background-color 0.3s, color 0.3s;
+       }
 
-        #splashScreen img {
-            width: 150px;
-            height: 150px;
-            margin-bottom: 20px;
-        }
+       /* Barra de navegación estilo WhatsApp */
+       .navbar-bottom {
+           position: fixed;
+           bottom: 0;
+           left: 0;
+           width: 100%;
+           background-color: #ffffff;
+           box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.2);
+           display: flex;
+           justify-content: space-around;
+           padding: 25px 10px;
+           z-index: 1000;
+           transition: background-color 0.3s ease;
+       }
 
-        #typingText {
-            font-size: 18px;
-            color: #fff;
-            font-weight: bold;
-            text-align: center;
-        }                  
-#mainContent {
-            display: none;
-           
-        }
+       .navbar-bottom a {
+           text-align: center;
+           flex: 1;
+           color: #000;
+           text-decoration: none;
+           font-size: 20px;
+       }
 
-            /* Barra de navegación estilo WhatsApp */
-            .navbar-bottom {
-                  position: fixed;
-                  bottom: 0;
-                  left: 0;
-                  width: 100%;
-                  background-color: #ffffff;
-                  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.2);
-                  display: flex;
-                  justify-content: space-around;
-                  padding: 25px 10px;
-                  z-index: 1000;
-                  transition: background-color 0.3s ease;
-            }
+       .navbar-bottom a i {
+           display: block;
+           font-size: 20px;
+           margin-bottom: 5px;
+       }
 
-            .navbar-bottom a {
-                  text-align: center;
-                  flex: 1;
-                  color: #000;
-                  text-decoration: none;
-                  font-size: 20px;
-            }
+       /* Tema oscuro para el contenido */
+       [data-theme="dark"] body {
+           background-color: #121212;
+           color: white;
+       }
 
-            .navbar-bottom a i {
-                  display: block;
-                  font-size: 20px;
-                  margin-bottom: 5px;
-            }
+       [data-theme="dark"] .container {
+           background-color: #333;
+           color: white;
+       }
 
-            /* Tema oscuro para el contenido */
-            [data-theme="dark"] body {
-                  background-color: #121212;
-                  color: white;
-            }
+       [data-theme="dark"] .table {
+           border-color: #444;
+       }
 
-            [data-theme="dark"] .container {
-                  background-color: #333;
-                  color: white;
-            }
+       [data-theme="dark"] .table th {
+           background-color: #555;
+       }
 
-            [data-theme="dark"] .table {
-                  border-color: #444;
-            }
+       [data-theme="dark"] .table td {
+           background-color: #444;
+       }
 
-            [data-theme="dark"] .table th {
-                  background-color: #555;
-            }
+       /* Solo mostrar íconos en pantallas pequeñas */
+       @media (max-width: 768px) {
+           .navbar-bottom a span {
+               display: none;
+           }
+       }
 
-            [data-theme="dark"] .table td {
-                  background-color: #444;
-            }
+       /* Mostrar íconos y texto en pantallas grandes */
+       @media (min-width: 769px) {
+           .navbar-bottom a span {
+               display: inline-block;
+           }
+       }
 
-            /* Solo mostrar íconos en pantallas pequeñas */
-            @media (max-width: 768px) {
-                  .navbar-bottom a span {
-                        display: none;
-                  }
-            }
+       /* Estilos para la tabla */
+       .container {
+           padding-bottom: 60px;
+           padding: 20px;
+       }
 
-            /* Mostrar íconos y texto en pantallas grandes */
-            @media (min-width: 769px) {
-                  .navbar-bottom a span {
-                        display: inline-block;
-                  }
-            }
+       .input-group {
+           display: flex;
+           margin-bottom: 20px;
+       }
 
-            /* Estilos para la tabla */
-            .container {
-                  padding-bottom: 60px;
-                  padding: 20px;
-            }
+       .input-group input {
+           flex: 1;
+           padding: 10px;
+           font-size: 16px;
+           border: 1px solid #ccc;
+           border-radius: 4px;
+       }
 
-            .input-group {
-                  display: flex;
-                  margin-bottom: 20px;
-            }
-                img{
-               width:15%;
-               max-width:200px;
-              height:auto;
-            border-radius:12px      ;
-               }
-            .input-group input {
-                  flex: 1;
-                  padding: 10px;
-                  font-size: 16px;
-                  border: 1px solid #ccc;
-                  border-radius: 4px;
-            }
+       .input-group button {
+           padding: 10px 15px;
+           background-color: #007bff;
+           color: white;
+           border: none;
+           border-radius: 4px;
+           cursor: pointer;
+       }
 
-            .input-group button {
-                  padding: 10px 15px;
-                  background-color: #007bff;
-                  color: white;
-                  border: none;
-                  border-radius: 4px;
-                  cursor: pointer;
-            }
+       .input-group button:hover {
+           background-color: #0056b3;
+       }
 
-            .input-group button:hover {
-                  background-color: #0056b3;
-            }
+       /* Estilo tabla similar a Bootstrap */
+       .table {
+           width: 100%;
+           border-collapse: collapse;
+           margin-top: 20px;
+       }
 
-            /* Estilo tabla similar a Bootstrap */
-            .table {
-                  width: 100%;
-                  border-collapse: collapse;
-                  margin-top: 20px;
-            }
+       .table th, .table td {
+           padding: 12px 15px;
+           text-align: left;
+           border: 1px solid #ddd;
+       }
 
-            .table th, .table td {
-                  padding: 12px 15px;
-                  text-align: left;
-                  border: 1px solid #ddd;
-            }
+       .table th {
+           background-color: #f4f4f4;
+           color: #333;
+       }
 
-            .table th {
-                  background-color: #f4f4f4;
-                  color: #333;
-            }
+       .table tr:nth-child(even) {
+           background-color: #f9f9f9;
+       }
 
-            .table tr:nth-child(even) {
-                  background-color: #f9f9f9;
-            }
+       .table tr:hover {
+           background-color: #f1f1f1;
+       }
 
-            .table tr:hover {
-                  background-color: #f1f1f1;
-            }
+       .table tfoot td {
+           font-weight: bold;
+       }
 
-            .table tfoot td {
-                  font-weight: bold;
-            }
-
-            .table-responsive {
-                  overflow-x: auto;
-            }
-            /* Estilo base para dispositivos grandes */
+       .table-responsive {
+           overflow-x: auto;
+       }
+       /* Estilo base para dispositivos grandes */
 .table-responsive {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch; /* Suaviza el desplazamiento en móviles */
+   overflow-x: auto;
+   -webkit-overflow-scrolling: touch; /* Suaviza el desplazamiento en móviles */
 }
 
 .table th, .table td {
-    padding: 12px 15px;
-    font-size: 16px;
+   padding: 12px 15px;
+   font-size: 16px;
 }
 
 /* Contenedor para tabla responsive */
 .table-responsive {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch; /* Suaviza el desplazamiento en móviles */
-    border: 1px solid #ddd; /* Opcional: Añade un borde alrededor del contenedor */
+   overflow-x: auto;
+   -webkit-overflow-scrolling: touch; /* Suaviza el desplazamiento en móviles */
+   border: 1px solid #ddd; /* Opcional: Añade un borde alrededor del contenedor */
 }
 
 .table th, .table td {
-    padding: 12px 15px;
-    font-size: 16px;
+   padding: 12px 15px;
+   font-size: 16px;
 }
 
 /* Dispositivos medianos (tabletas) */
 @media (max-width: 768px) {
-    .table th, .table td {
-        padding: 10px 12px;
-        font-size: 14px;
-    }
+   .table th, .table td {
+       padding: 10px 12px;
+       font-size: 14px;
+   }
 }
 
 /* Dispositivos pequeños (teléfonos) */
 @media (max-width: 480px) {
-    .table th, .table td {
-        padding: 8px 10px;
-        font-size: 12px;
-    }
+   .table th, .table td {
+       padding: 8px 10px;
+       font-size: 12px;
+   }
 
-    .table-responsive {
-        overflow-x: auto; /* Permite desplazamiento horizontal */
-    }
+   .table-responsive {
+       overflow-x: auto; /* Permite desplazamiento horizontal */
+   }
 }
-      </style>
+   </style>
 </head>
 <body>
-   <!-- Pantalla de bienvenida -->
-    <div id="splashScreen">
-        <img src="web-app-manifest-512x512.png" alt="Logo de la Aplicación">
-        <div id="typingText"></div>
-    </div>
+   <!-- Barra de navegación estilo WhatsApp -->
+   <div class="navbar-bottom">
+       <a href="index.html">
+           <i class="fas fa-home"></i>
+           <span>Inicio</span>
+       </a>
+       <a href="precios.html">
+           <i class="fas fa-tag"></i>
+           <span>Precios</span>
+       </a>
+       <a href="#">
+           <i class="fas fa-info-circle"></i>
+           <span>Info</span>
+       </a>
+       <a href="#">
+           <i class="fas fa-cog"></i>
+           <span>Configuración</span>
+       </a>
+   </div>
+
    <!-- Contenido principal -->
-    <div id="mainContent">
-      <!-- Barra de navegación estilo WhatsApp -->
-      <div class="navbar-bottom">
-            <a href="index.html">
-                  <i class="fas fa-home"></i>
-                  <span>Inicio</span>
-            </a>
-            <a href="precios.html">
-                  <i class="fas fa-tag"></i>
-                  <span>Precios</span>
-            </a>
-            <a href="#">
-                  <i class="fas fa-info-circle"></i>
-                  <span>Info</span>
-            </a>
-            <a href="#">
-                  <i class="fas fa-cog"></i>
-                  <span>Configuración</span>
-            </a>
-      </div>
-
-      <!-- Contenido principal -->
-      <div class="container">
-            <div class="input-group">
-                  <input type="text" id="bus" placeholder="Escribe aquí para filtrar">
-                  <button id="busc" type="button">
-                        <i class="fas fa-microphone"></i>
-                  </button>
-            </div>
-
-            <div class="table-responsive">
-                  <table class="table">
-                        <thead>
-                              <tr>
-                                    <th>Artículo</th>
-                                    <th>Descripción</th>
-                                    <th>Cantidad</th>
-                              </tr>
-                        </thead>
-                        <tfoot>
-                              <tr>
-                                    <td colspan="2">Total</td>
-                                    <td id="total"></td>
-                              </tr>
-                        </tfoot>
-                        <tbody id="res"></tbody>
-                  </table>
-            </div>
-      </div>
+   <div class="container">
+       <div class="input-group">
+           <input type="text" id="bus" placeholder="Escribe aquí para filtrar">
+           <button id="busc" type="button">
+               <i class="fas fa-microphone"></i>
+           </button>
        </div>
-      <!-- Scripts -->
-      <script>
-                 // Textos para el efecto typing
-        const textos = ["Espere un momento...", "Cargando aplicación...", "¡Listo!"];
-        const typingText = document.getElementById("typingText");
-        let textoIndex = 0;
-        let charIndex = 0;
 
-        // Función para simular el efecto typing
-        function escribirTexto() {
-            if (charIndex < textos[textoIndex].length) {
-                typingText.textContent += textos[textoIndex].charAt(charIndex);
-                charIndex++;
-                setTimeout(escribirTexto, 100);
-            } else {
-                setTimeout(borrarTexto, 1000);
-            }
-        }
+       <div class="table-responsive">
+           <table class="table">
+               <thead>
+                   <tr>
+                       <th>Artículo</th>
+                       <th>Descripción</th>
+                       <th>Cantidad</th>
+                   </tr>
+               </thead>
+               <tfoot>
+                   <tr>
+                       <td colspan="2">Total</td>
+                       <td id="total"></td>
+                   </tr>
+               </tfoot>
+               <tbody id="res"></tbody>
+           </table>
+       </div>
+   </div>
 
-        // Función para borrar texto después de escribirlo
-        function borrarTexto() {
-            if (charIndex > 0) {
-                typingText.textContent = textos[textoIndex].substring(0, charIndex - 1);
-                charIndex--;
-                setTimeout(borrarTexto, 50);
-            } else {
-                textoIndex = (textoIndex + 1) % textos.length; // Cambiar al siguiente texto
-                setTimeout(escribirTexto, 500);
-            }
-        }
+   <!-- Scripts -->
+   <script>
+       // Función para cargar productos desde JSON
+       function cargarProductos() {
+           fetch("productos.json")
+               .then(response => response.json())
+               .then(data => {
+                   let contenido = "";
+                   let total = 0;
+                   data.forEach(function(producto) {
+                       contenido += `<tr>
+                                       <td>${producto.uno}</td>
+                                       <td>${producto.dos}</td>
+                                       <td>${producto.tres}</td>
+                                    </tr>`;
+                       total += parseInt(producto.tres);
+                   });
+                   document.getElementById("res").innerHTML = contenido;
+                   document.getElementById("total").textContent = total;
+               });
+       }
 
-        // Iniciar efecto typing al cargar
-        escribirTexto();
+       // Filtrar productos
+       function filtrarProductos() {
+           const busqueda = document.getElementById("bus").value.toLowerCase();
+           const filas = document.querySelectorAll("#res tr");
 
-        // Mostrar contenido principal después de 5 segundos
-        setTimeout(() => {
-            document.getElementById("splashScreen").style.display = "none";
-            document.getElementById("mainContent").style.display = "block";
-        }, 5000);
-            // Función para cargar productos desde JSON
-            function cargarProductos() {
-                  fetch("productos.json")
-                        .then(response => response.json())
-                        .then(data => {
-                              let contenido = "";
-                              let total = 0;
-                              data.forEach(function(producto) {
-                                    contenido += `<tr>
-                                                            <td>${producto.uno}</td>
-                                                            <td>${producto.dos}</td>
-                                                            <td>${producto.tres}</td>
-                                                       </tr>`;
-                                    total += parseInt(producto.tres);
-                              });
-                              document.getElementById("res").innerHTML = contenido;
-                              document.getElementById("total").textContent = total;
-                        });
-            }
+           filas.forEach(function(fila) {
+               const descripcion = fila.cells[1].textContent.toLowerCase();
+               if (descripcion.indexOf(busqueda) === -1) {
+                   fila.style.display = "none";
+               } else {
+                   fila.style.display = "";
+               }
+           });
+       }
 
-            // Filtrar productos
-            function filtrarProductos() {
-                  const busqueda = document.getElementById("bus").value.toLowerCase();
-                  const filas = document.querySelectorAll("#res tr");
+       // Cambio de tema y guardar en localStorage
+       function toggleTheme() {
+           const currentTheme = localStorage.getItem('theme') || 'light';
+           const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+           document.body.setAttribute('data-theme', newTheme);
+           localStorage.setItem('theme', newTheme);
+       }
 
-                  filas.forEach(function(fila) {
-                        const descripcion = fila.cells[1].textContent.toLowerCase();
-                        if (descripcion.indexOf(busqueda) === -1) {
-                              fila.style.display = "none";
-                        } else {
-                              fila.style.display = "";
-                        }
-                  });
-            }
+       // Cargar tema desde localStorage al iniciar
+       document.addEventListener('DOMContentLoaded', function () {
+           const savedTheme = localStorage.getItem('theme') || 'light';
+           document.body.setAttribute('data-theme', savedTheme);
 
-            // Cambio de tema y guardar en localStorage
-            function toggleTheme() {
-                  const currentTheme = localStorage.getItem('theme') || 'light';
-                  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                  document.body.setAttribute('data-theme', newTheme);
-                  localStorage.setItem('theme', newTheme);
-            }
+           cargarProductos();
+           document.getElementById("bus").addEventListener("input", filtrarProductos);
 
-            // Cargar tema desde localStorage al iniciar
-            document.addEventListener('DOMContentLoaded', function () {
-                  const savedTheme = localStorage.getItem('theme') || 'light';
-                  document.body.setAttribute('data-theme', savedTheme);
+           // Crear y añadir el botón de cambio de tema
+           const themeButton = document.createElement('button');
+           themeButton.textContent = 'Cambiar tema';
+           themeButton.style.position = 'fixed';
+           themeButton.style.top = '10px';
+           themeButton.style.right = '10px';
+           themeButton.style.padding = '10px';
+           themeButton.style.cursor = 'pointer';
+           themeButton.onclick = toggleTheme;
+           document.body.appendChild(themeButton);
+       });
+   </script>
 
-                  cargarProductos();
-                  document.getElementById("bus").addEventListener("input", filtrarProductos);
+   <!-- Registrar el service worker -->
+   <script>
+       if ('serviceWorker' in navigator) {
+   navigator.serviceWorker.register('./service-worker.js')
+       .then((registration) => {
+           console.log('[Service Worker] Registrado con éxito:', registration);
 
-                  // Crear y añadir el botón de cambio de tema
-                  const themeButton = document.createElement('button');
-                  themeButton.textContent = 'Cambiar tema';
-                  themeButton.style.position = 'fixed';
-                  themeButton.style.top = '10px';
-                  themeButton.style.right = '10px';
-                  themeButton.style.padding = '10px';
-                  themeButton.style.cursor = 'pointer';
-                  themeButton.onclick = toggleTheme;
-                  document.body.appendChild(themeButton);
-            });
-      </script>
-
-    <!-- Registrar el service worker -->
-    <script>
-        if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./service-worker.js')
-        .then((registration) => {
-            console.log('[Service Worker] Registrado con éxito:', registration);
-
-            // Detecta un nuevo SW esperando para activarse
-            registration.onupdatefound = () => {
-                const newSW = registration.installing;
-                newSW.onstatechange = () => {
-                    if (newSW.state === 'installed') {
-                        if (navigator.serviceWorker.controller) {
-                            // Notificar al usuario que hay una actualización disponible
-                            alert('Hay una nueva versión de la aplicación. Recarga la página para aplicar los cambios.');
-                        }
-                    }
-                };
-            };
-        })
-        .catch((error) => {
-            console.error('[Service Worker] Error al registrar:', error);
-        });
+           // Detecta un nuevo SW esperando para activarse
+           registration.onupdatefound = () => {
+               const newSW = registration.installing;
+               newSW.onstatechange = () => {
+                   if (newSW.state === 'installed') {
+                       if (navigator.serviceWorker.controller) {
+                           // Notificar al usuario que hay una actualización disponible
+                           alert('Hay una nueva versión de la aplicación. Recarga la página para aplicar los cambios.');
+                       }
+                   }
+               };
+           };
+       })
+       .catch((error) => {
+           console.error('[Service Worker] Error al registrar:', error);
+       });
 }
-    </script>
+   </script>
 
 </body>
 </html>
+
+Sent from my iPhone
