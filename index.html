@@ -14,6 +14,38 @@
            padding: 0;
            transition: background-color 0.3s, color 0.3s;
        }
+           /* Pantalla de bienvenida */
+        #splashScreen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #17202a;
+            z-index: 9999;
+        }
+
+        #splashScreen img {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 20px;
+        }
+
+        #typingText {
+            font-size: 18px;
+            color: #fff;
+            font-weight: bold;
+            text-align: center;
+        }                  
+#mainContent {
+            display: none;
+           
+        }
+
 
        /* Barra de navegación estilo WhatsApp */
        .navbar-bottom {
@@ -191,6 +223,14 @@
    </style>
 </head>
 <body>
+
+<!-- Pantalla de bienvenida -->
+    <div id="splashScreen">
+        <img src="logo.png" alt="Logo de la Aplicación">
+        <div id="typingText"></div>
+    </div>
+   <!-- Contenido principal -->
+    <div id="mainContent">
    <!-- Barra de navegación estilo WhatsApp -->
    <div class="navbar-bottom">
        <a href="index.html">
@@ -239,9 +279,48 @@
            </table>
        </div>
    </div>
-
+</div>
    <!-- Scripts -->
    <script>
+    // Textos para el efecto typing
+        const textos = ["Espere un momento...", "Cargando aplicación...", "¡Listo!"];
+        const typingText = document.getElementById("typingText");
+        let textoIndex = 0;
+        let charIndex = 0;
+
+        // Función para simular el efecto typing
+        function escribirTexto() {
+            if (charIndex < textos[textoIndex].length) {
+                typingText.textContent += textos[textoIndex].charAt(charIndex);
+                charIndex++;
+                setTimeout(escribirTexto, 100);
+            } else {
+                setTimeout(borrarTexto, 1000);
+            }
+        }
+
+        // Función para borrar texto después de escribirlo
+        function borrarTexto() {
+            if (charIndex > 0) {
+                typingText.textContent = textos[textoIndex].substring(0, charIndex - 1);
+                charIndex--;
+                setTimeout(borrarTexto, 50);
+            } else {
+                textoIndex = (textoIndex + 1) % textos.length; // Cambiar al siguiente texto
+                setTimeout(escribirTexto, 500);
+            }
+        }
+
+        // Iniciar efecto typing al cargar
+        escribirTexto();
+
+        // Mostrar contenido principal después de 5 segundos
+        setTimeout(() => {
+            document.getElementById("splashScreen").style.display = "none";
+            document.getElementById("mainContent").style.display = "block";
+        }, 5000);
+   
+   
        // Función para cargar productos desde JSON
        function cargarProductos() {
            fetch("productos.json")
@@ -334,5 +413,3 @@
 
 </body>
 </html>
-
-Sent from my iPhone
