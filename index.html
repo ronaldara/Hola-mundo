@@ -383,6 +383,34 @@
            themeButton.onclick = toggleTheme;
            document.body.appendChild(themeButton);
        });
+      // Función para ordenar la tabla
+function ordenarTabla(columna, tipo) {
+    const tbody = document.querySelector("#res");
+    const filas = Array.from(tbody.querySelectorAll("tr"));
+
+    filas.sort((a, b) => {
+        const celdaA = a.cells[columna].textContent.trim().toLowerCase();
+        const celdaB = b.cells[columna].textContent.trim().toLowerCase();
+
+        if (tipo === 'numero') {
+            return parseFloat(celdaA) - parseFloat(celdaB);
+        } else {
+            return celdaA.localeCompare(celdaB);
+        }
+    });
+
+    // Reordenar las filas en el DOM
+    filas.forEach(fila => tbody.appendChild(fila));
+}
+
+// Añadir eventos de clic a los encabezados
+document.querySelectorAll(".table th").forEach((th, index) => {
+    th.addEventListener("click", () => {
+        // Detectar si la columna es numérica o de texto
+        const tipo = index === 2 ? 'numero' : 'texto'; // Supongamos que la columna 2 es numérica
+        ordenarTabla(index, tipo);
+    });
+});
    </script>
 
    <!-- Registrar el service worker -->
