@@ -1,4 +1,4 @@
-const CACHE_NAME = 'productos-cache-v1'; // Incrementa la versión para forzar la actualización
+const CACHE_NAME = 'productos-cache-v2'; // Incrementa la versión para forzar la actualización
 const urlsToCache = [
     './', // Si el archivo está en el mismo directorio
     './index.html',
