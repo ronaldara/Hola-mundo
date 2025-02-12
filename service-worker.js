@@ -1,4 +1,4 @@
-const CACHE_NAME = 'productos-cache-v3'; // Incrementa la versión para forzar la actualización
+const CACHE_NAME = 'productos-cache-v4'; // Incrementa la versión para forzar la actualización
 const urlsToCache = [
     './', // Si el archivo está en el mismo directorio
     './index.html',
@@ -6,6 +6,7 @@ const urlsToCache = [
     './manifest.json',
     './styles.css',
     './productos.json',
+     './precios.json',
     './web-app-manifest-512x512.png',
 ];
 
