@@ -417,6 +417,7 @@ overflow-x:auto;
                  <input type="radio" name="grupo2" id="plan"  value="599" label="Plata (25 GB)" >
                  <input type="radio" name="grupo2" id="plan"  value="659" label="Oro (30 GB)" >
                  <input type="radio" name="grupo2" id="plan"  value="759" label="Black (40 GB)" >
+	          <input type="radio" name="grupo2" id="plan"  value="999" label="Platino (45 GB)" >
                  <input type="radio" name="grupo2" id="plan"  value="1199" label="Diamante (50 GB)" >
                  <input type="radio" name="grupo2" id="plan" value="1399" label="Titanio (40 GB)" >
               <!-- <input type="number" id="mesesPagar" value="24" disabled placeholder="Ingrese la cantidad de meses">-->
@@ -798,6 +799,10 @@ cargarProductos();
   {
   PlanAc = "759 Black(40 GB)";
   }
+if(Plan == 999)
+  {
+  PlanAc = "999 Platino(45 GB)";
+  }		      
   if(Plan == 1199)
   {
   PlanAc = "1199 Diamante(50 GB)";
